@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask_wtf import Form
-from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
+from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
 from wtforms.validators import DataRequired, AnyOf, URL
 
 class ShowForm(Form):
@@ -17,17 +17,6 @@ class ShowForm(Form):
     )
 
 class VenueForm(Form):
-
-    def validate_phone(form, field):
-        if not re.search(r"^[0-9]{3}-[0-9]{3}-[0-9]{4}$", field.data):
-            raise ValidationError("Invalid phone number.")
-
-    def validate_genres(form, field):
-        genres_values = [choice[1] for choice in genres_choices]
-        for value in field.data:
-            if value not in genres_values:
-                raise ValidationError('Invalid genres value.')
-
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -99,6 +88,12 @@ class VenueForm(Form):
     image_link = StringField(
         'image_link'
     )
+    website = StringField(
+        'website'
+    )
+    seeking_description = StringField(
+        'seeking_description'
+    )
     genres = SelectMultipleField(
         # TODO implement enum restriction
         'genres', validators=[DataRequired()],
@@ -134,6 +129,9 @@ class ArtistForm(Form):
     )
     city = StringField(
         'city', validators=[DataRequired()]
+    )
+    seeking_venue = BooleanField(
+        False
     )
     state = SelectField(
         'state', validators=[DataRequired()],
@@ -194,6 +192,12 @@ class ArtistForm(Form):
     phone = StringField(
         # TODO implement validation logic for state
         'phone'
+    )
+    website = StringField(
+        'website'
+    )
+    seeking_description = StringField(
+        'seeking_description'
     )
     image_link = StringField(
         'image_link'
