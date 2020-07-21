@@ -1,7 +1,3 @@
-""" 
- Main file that starts the app
- Contains endpoints for the app
-"""
 # Imports
 
 import json
@@ -37,10 +33,7 @@ SQLALCHEMY_DATABASE_URI = 'postgres://postgres@localhost:5432/fyyur'
 
 def format_datetime(value, format='medium'):
     date = dateutil.parser.parse(value)
-    if format == 'full':
-        format = "EEEE MMMM, d, y 'at' h:mma"
-    elif format == 'medium':
-        format = "EE MM, dd, y h:mma"
+    format = "EEEE MMMM, d, y 'at' h:mma"
     return babel.dates.format_datetime(date, format)
 
 
@@ -70,33 +63,20 @@ def create_artist_form():
 def create_artist_submission():
     form = ArtistForm()
     error = False
-    try:
-        artist = Artist()
-        artist.name = request.form['name']
-        artist.city = request.form['city']
-        artist.state = request.form['state']
-        artist.phone = request.form['phone']
-        tmp_genres = request.form.getlist('genres')
-        artist.genres = ','.join(tmp_genres)
-        artist.website = request.form['website']
-        artist.image_link = request.form['image_link']
-        artist.facebook_link = request.form['facebook_link']
-        artist.seeking_description = request.form['seeking_description']
-        db.session.add(artist)
-        db.session.commit()
-    except:
-        error = True
-        db.session.rollback()
-        print(sys.exc_info())
-    finally:
-        db.session.close()
-        if error:
-            flash('An error occurred. Artist ' +
-                  request.form['name'] + ' could not be listed.')
-        else:
-            flash('Artist ' + request.form['name'] +
-                  ' was successfully listed!')
-        return render_template('pages/home.html')
+    artist = Artist()
+    artist.name = request.form['name']
+    artist.city = request.form['city']
+    artist.state = request.form['state']
+    artist.phone = request.form['phone']
+    tmp_genres = request.form.getlist('genres')
+    artist.genres = ','.join(tmp_genres)
+    artist.website = request.form['website']
+    artist.image_link = request.form['image_link']
+    artist.facebook_link = request.form['facebook_link']
+    artist.seeking_description = request.form['seeking_description']
+    db.session.add(artist)
+    db.session.commit()
+ 
 
 # Get Artist
 
