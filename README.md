@@ -83,7 +83,7 @@ Instructions
 
 
 Acceptance Criteria
------
+
 
 1. The web app should be successfully connected to a PostgreSQL database. A local connection to a database on your local computer is fine.
 2. There should be no use of mock data throughout the app. The data structure of the mock data per controller should be kept unmodified when satisfied by real data.
